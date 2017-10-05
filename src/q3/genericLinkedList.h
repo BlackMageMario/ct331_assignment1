@@ -1,10 +1,12 @@
 #ifndef CT331_ASSIGNMENT_LINKED_LIST
 #define CT331_ASSIGNMENT_LINKED_LIST
 
+//typedef void (*printFunction)(void* data);
+
 typedef struct listElementStruct {
 	void* data;
 	size_t size;
-	void (*printFunction)();
+	void (*printFunction)(void* data);
 	struct listElementStruct* next;
 } listElement;
 void printChar(void* data);

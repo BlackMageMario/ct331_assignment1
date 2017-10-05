@@ -9,13 +9,14 @@ listElement* createEl(void* data, size_t size, void* printFunction) {
 		//malloc has had an error
 		return NULL; //return NULL to indicate an error.
 	}
-	void* dataPointer = malloc(sizeof(data)*size);
+	void* dataPointer = malloc(size);
 	if (dataPointer == NULL) {
 		//malloc has had an error
 		free(e); //release the previously allocated memory
 		return NULL; //return NULL to indicate an error.
 	}
-	//strcpy(dataPointer, data);
+	memmove(dataPointer, data, size);
+	//memcpy(dataPointer, data);
 	e->data = dataPointer;
 	e->size = size;
 	e->printFunction = printFunction;
@@ -27,7 +28,7 @@ listElement* createEl(void* data, size_t size, void* printFunction) {
 void traverse(listElement* start) {
 	listElement* current = start;
 	while (current != NULL) {
-		current->printFunction();
+		current->printFunction(current->data);
 		current = current->next;
 	}
 }
@@ -54,7 +55,7 @@ void printDouble(void* data)
 }
 void printLong(void* data)
 {
-	printf("%l\n", *(long*)data);
+	printf("%ld\n", *(long*)data);
 }
 
 //Inserts a new element after the given el
@@ -113,12 +114,6 @@ listElement* pop(listElement** list)
 
 void enqueue(listElement** list, void* data, size_t size, void* printFunction)
 {
-	/*listElement* newElement = createEl(data, size);
-	listElement* temp;
-	temp = *list;
-	temp->next = (*list)->next;
-	*list = newElement;
-	newElement->next = temp;*/
 	listElement* newElement = createEl(data, size, printFunction);
 	newElement->next = *list;
 	*list = newElement;
@@ -127,19 +122,11 @@ void enqueue(listElement** list, void* data, size_t size, void* printFunction)
 listElement* dequeue(listElement* list)
 {
 	listElement* current = list;
-	listElement* temp;
-	while (current != NULL)
+	while ((current->next)->next != NULL)
 	{
-		if (current->next->next == NULL)
-		{
-			//current is the 
-			temp = createEl(current->next->data, current->next->size, current->next->printFunction);
-			free(current->next->printFunction);
-			free(current->next->data);
-			free(current->next);
-			current->next = NULL;
-		}
 		current = current->next;
 	}
+	listElement* temp = current->next;
+	current->next=NULL;
 	return temp;
 }
