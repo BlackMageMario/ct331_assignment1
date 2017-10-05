@@ -1,7 +1,7 @@
 #ifndef CT331_ASSIGNMENT_LINKED_LIST
 #define CT331_ASSIGNMENT_LINKED_LIST
 
-//typedef void (*printFunction)(void* data);
+//typedef void (*printFunction)(void* data); in the end i decided not to use this
 
 typedef struct listElementStruct {
 	void* data;
@@ -9,6 +9,7 @@ typedef struct listElementStruct {
 	void (*printFunction)(void* data);
 	struct listElementStruct* next;
 } listElement;
+//all the print functions we need
 void printChar(void* data);
 void printString(void* data);
 void printInt(void* data);

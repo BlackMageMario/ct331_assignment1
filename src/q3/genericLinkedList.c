@@ -9,14 +9,13 @@ listElement* createEl(void* data, size_t size, void* printFunction) {
 		//malloc has had an error
 		return NULL; //return NULL to indicate an error.
 	}
-	void* dataPointer = malloc(size);
+	void* dataPointer = malloc(size);//i had a more complicated function for this but allocating based on the size makes sense
 	if (dataPointer == NULL) {
 		//malloc has had an error
 		free(e); //release the previously allocated memory
 		return NULL; //return NULL to indicate an error.
 	}
-	memmove(dataPointer, data, size);
-	//memcpy(dataPointer, data);
+	memmove(dataPointer, data, size);//I did not have this for a long time - moves the data into the data pointer
 	e->data = dataPointer;
 	e->size = size;
 	e->printFunction = printFunction;
@@ -28,7 +27,7 @@ listElement* createEl(void* data, size_t size, void* printFunction) {
 void traverse(listElement* start) {
 	listElement* current = start;
 	while (current != NULL) {
-		current->printFunction(current->data);
+		current->printFunction(current->data);//prints out our data
 		current = current->next;
 	}
 }
@@ -93,12 +92,6 @@ int length(listElement* list)
 
 void push(listElement** list, void* data, size_t size, void* printFunction)
 {
-	/*listElement* newElement = createEl(data, size);
-	listElement* temp;
-	temp = *list;
-	temp->next = (*list)->next;
-	*list = newElement;
-	newElement->next = temp;*/
 	listElement* newElement = createEl(data, size, printFunction);
 	newElement->next = *list;
 	*list = newElement;
@@ -108,7 +101,6 @@ listElement* pop(listElement** list)
 {
 	listElement* temp = *list;
 	*list = (*list)->next;
-	//printf("Data of poped element: %s", temp->data);
 	return temp;
 }
 
